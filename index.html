@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random Image Guessing Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      #imageContainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      img {
+        max-width: 300px;
+        max-height: 300px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Random Image Guessing Game</h1>
+    <p>Score: <span id="score">0</span></p>
+    <form>
+      <label for="guessInput">Guess:</label>
+      <input type="text" id="guessInput" name="guess">
+      <button type="button" onclick="checkGuess()">Submit</button>
+    </form>
+    <div id="imageContainer"></div>
+    <script>
+      // Define key-value pairs as an object
+      const keyValues = {
+        'react':'download (1).png',
+    'vue': 'download.png',
+    'angular': 'download (2).png',
+      };
+
+      // Initialize variables
+      let score = 0;
+      let numGuesses = 0;
+      let currentKey;
+
+      // Define function to display a random image
+      function displayRandomImage() {
+        // Get a random key from the object
+        currentKey = Object.keys(keyValues)[Math.floor(Math.random() * Object.keys(keyValues).length)];
+
+        // Display the random image
+        const img = document.createElement("img");
+        img.src = keyValues[currentKey];
+        document.getElementById("imageContainer").appendChild(img);
+      }
+
+      // Define function to check the user's guess
+      function checkGuess() {
+        // Get the user's guess from the input form
+        const guess = document.getElementById("guessInput").value.toLowerCase();
+
+        // Check if the guess is correct and update the score
+        if (guess === currentKey) {
+          score++;
+          document.getElementById("score").textContent = score;
+          console.log("Correct! You earned 1 point.");
+        } else {
+          console.log(`Sorry, the correct answer is "${currentKey}".`);
+        }
+
+        // Update the number of guesses
+        numGuesses++;
+
+        // Clear the input form
+        document.getElementById("guessInput").value = "";
+
+        // Display another random image
+        document.getElementById("imageContainer").innerHTML = "";
+        displayRandomImage();
+      }
+
+      // Display the first random image
+      displayRandomImage();
+    </script>
+  </body>
+</html>
